@@ -28,8 +28,9 @@ public class WaitConnectionTask extends AsyncTask<String, Boolean, String> {
 	}
 
 	protected String doInBackground(String... args) {
-
+        Log.i(TAG,"begin check");
         boolean check = checkConnectivity();
+        Log.i(TAG,"end check");
         publishProgress(check);
 		return null;
 	}
@@ -39,15 +40,18 @@ public class WaitConnectionTask extends AsyncTask<String, Boolean, String> {
      */
     private boolean checkConnectivity() {
         boolean checked = false;
+        Log.i(TAG,"begin check wifi");
         // test wifi url
         url = context.getString(R.string.wifi_url);
         checked = NetworkTools.checkWebSite(context,url);
+        Log.i(TAG,"end check wifi");
         if (!checked){
-            Log.i(TAG,"can't connect to wifi");
+            Log.i(TAG,"begin check internet");
             url = context.getString(R.string.internet_url);
             checked = NetworkTools.checkWebSite(context,url);
             Log.i(TAG,"can't connect to internet site ? "+checked);
             // test internet url
+            Log.i(TAG,"end check internet");
         }
         return checked;
     }
