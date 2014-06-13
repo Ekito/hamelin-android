@@ -70,8 +70,13 @@ public class WaitConnectionTask extends AsyncTask<String, Boolean, String> {
                         return true;
                     }
                 });
-                Log.i(TAG,"loading web page : "+url);
-                webView.loadUrl(url);
+                try {
+                    Log.i(TAG, "loading web page : " + url);
+                    webView.loadUrl(url);
+                    Log.i(TAG,"loaded web page : "+url);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 		}
         else{

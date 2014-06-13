@@ -31,6 +31,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private String url = "";
     private Menu menu;
+    private WaitConnectionTask waitConnectionTask;
 
 
     @Override
@@ -58,21 +59,29 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override
     protected void onResume() {
         super.onResume();
-        WaitConnectionTask waitConnectionTask = new WaitConnectionTask(this);
+        waitConnectionTask = new WaitConnectionTask(this);
         waitConnectionTask.execute();
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        destroyWebView();
 
-    }
-
-    private void destroyWebView() {
+        waitConnectionTask.cancel(true);
         webview = (WebView) findViewById(R.id.webView);
         if (webview != null) {
+            webview.stopLoading();
+//            webview.destroy();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        webview = (WebView) findViewById(R.id.webView);
+        if (webview != null) {
+//            webview.stopLoading();
             webview.destroy();
         }
     }
@@ -83,19 +92,8 @@ public class MainActivity extends Activity implements SensorEventListener {
         mSensorManager.unregisterListener(this);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            IntentTools.quitToHome(this);
-            return true;
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
-
     public void onclick_live(View view){
         Log.i(TAG,"going live !");
-        destroyWebView();
 
         finish();
         Intent i = new Intent(this, MainActivity.class);

@@ -26,13 +26,4 @@ public class OfflineActivity extends Activity {
         startActivity(i);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            IntentTools.quitToHome(this);
-            return true;
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
 }
