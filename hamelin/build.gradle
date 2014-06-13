@@ -1,0 +1,27 @@
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.1.0"
+
+    defaultConfig {
+        applicationId "fr.ekito.hamelin"
+        minSdkVersion 14
+        targetSdkVersion 14
+        versionCode 3
+        versionName "1.2"
+    }
+    buildTypes {
+        release {
+            debuggable false
+            jniDebugBuild false
+            signingConfig
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}

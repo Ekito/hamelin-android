@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Hamelin-Android.iml" filepath="$PROJECT_DIR$/Hamelin-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hamelin/hamelin.iml" filepath="$PROJECT_DIR$/hamelin/hamelin.iml" />
+    </modules>
+  </component>
+</project>
+
