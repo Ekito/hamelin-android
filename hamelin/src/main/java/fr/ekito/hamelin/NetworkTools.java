@@ -1,9 +1,5 @@
 package fr.ekito.hamelin;
 
-import android.app.Activity;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
@@ -14,9 +10,6 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 /**
  * Created by arnaud on 11/06/14.
  */
@@ -24,7 +17,7 @@ public class NetworkTools {
 
     private static final String TAG = "HAMELIN-NETTOOLS";
 
-    public static boolean checkWebSite(Activity context, String targetUrl) { // this is the downloader method
+    public static boolean checkWebSite(String targetUrl) { // this is the downloader method
         boolean checkedSite = false;
         try {
             HttpParams httpParameters = new BasicHttpParams();
@@ -39,13 +32,15 @@ public class NetworkTools {
 
             HttpClient httpclient = new DefaultHttpClient(httpParameters);
             HttpGet httpget = new HttpGet(targetUrl);
+            Log.e(TAG, "checkWebSite : " + targetUrl);
             HttpResponse response = httpclient.execute(httpget);
             int code = response.getStatusLine().getStatusCode();
+            Log.e(TAG, "checkWebSite response : " + code);
 
             checkedSite = code >= 200 && code < 300;
 
         } catch (Throwable e) {
-            Log.e(TAG,"checkWebSite error : "+e);
+            Log.e(TAG, "checkWebSite error : " + e);
         }
         return checkedSite;
     }

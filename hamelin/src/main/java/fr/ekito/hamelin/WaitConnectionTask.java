@@ -1,94 +1,84 @@
 package fr.ekito.hamelin;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 public class WaitConnectionTask extends AsyncTask<String, Boolean, String> {
 
-	private static final String TAG = "HAMELIN-WaitConnection";
+    private static final String TAG = "HAMELIN-WaitConnection";
 
-	private Activity context;
+    private Activity context;
 
     private WebView webView;
 
     private String url;
 
-	public WaitConnectionTask(Activity c) {
-		this.context = c;
-	}
+    public WaitConnectionTask(Activity c) {
+        this.context = c;
+    }
 
-	protected String doInBackground(String... args) {
-        Log.i(TAG,"begin check");
+    protected String doInBackground(String... args) {
+        Log.i(TAG, "begin check");
         boolean check = checkConnectivity();
-        Log.i(TAG,"end check");
+        Log.i(TAG, "end check");
         publishProgress(check);
-		return null;
-	}
+        return null;
+    }
 
     /**
      * Check network and update url
      */
     private boolean checkConnectivity() {
         boolean checked = false;
-        Log.i(TAG,"begin check wifi");
-        // test wifi url
-        url = context.getString(R.string.wifi_url);
-        checked = NetworkTools.checkWebSite(context,url);
-        Log.i(TAG,"end check wifi");
-        if (!checked){
-            Log.i(TAG,"begin check internet");
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        Log.i(TAG, "check wifi : "+mWifi.isConnected());
+        if (mWifi.isConnected()) {
+            // test wifi url
+            url = context.getString(R.string.wifi_url);
+            checked = NetworkTools.checkWebSite(url);
+
+            if (!checked) {
+                Log.i(TAG, "get internet url");
+                url = context.getString(R.string.internet_url);
+            }
+        }else{
+            Log.i(TAG, "no wifi. get internet url");
             url = context.getString(R.string.internet_url);
-            checked = NetworkTools.checkWebSite(context,url);
-            Log.i(TAG,"can't connect to internet site ? "+checked);
-            // test internet url
-            Log.i(TAG,"end check internet");
         }
+
         return checked;
     }
 
 
-	@Override
-	protected void onProgressUpdate(Boolean... v) {
-		if (v[0]) {
-            webView = (WebView) context.findViewById(R.id.webView);
-            if (webView != null) {
-
-                // webview js enable
-                webView.getSettings().setJavaScriptEnabled(true);
-
-                // lock webview touch
-                webView.setOnTouchListener(new View.OnTouchListener() {
-
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        return true;
-                    }
-                });
-                try {
-                    Log.i(TAG, "loading web page : " + url);
-                    webView.loadUrl(url);
-                    Log.i(TAG,"loaded web page : "+url);
-                } catch (Exception e) {
-                    e.printStackTrace();
+    @Override
+    protected void onProgressUpdate(Boolean... v) {
+        webView = (WebView) context.findViewById(R.id.webView);
+        if (webView != null) {
+            try {
+                Log.i(TAG, "stop loading ...");
+                webView.stopLoading();
+                Log.i(TAG, "load web page : " + url);
+                webView.loadUrl(url);
+                if (!v[0]) {
+                    OfflineConnectionTask offlineCheck = new OfflineConnectionTask(context,webView);
+                    offlineCheck.execute();
                 }
+            } catch (Exception e) {
+                Log.e(TAG, "Error onProgressUpdate ", e);
+                IntentTools.quitToHome(context);
             }
-		}
-        else{
-            Log.i(TAG,"offline view");
-            // launch offline view
-            Intent i = new Intent(context, OfflineActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivityForResult(i, 1);
         }
-	}
+        else{
+            Log.e(TAG, "Webview is null");
+        }
+    }
 }

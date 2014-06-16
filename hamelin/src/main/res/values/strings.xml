@@ -3,8 +3,8 @@
 
     <string name="app_name">Hamelin</string>
 
-     <string name="wifi_url">http://192.168.5.106:8080/mobile.html</string>
-    <!--<string name="wifi_url">http://192.168.0.22:8080/mobile.html</string>-->
+     <!--<string name="wifi_url">http://192.168.5.106:8080/mobile.html</string>-->
+    <string name="wifi_url">http://192.168.0.22:8080/mobile.html</string>
     <string name="internet_url">http://hamelin.herokuapp.com/mobile-demo.html</string>
 
     <string name="title_activity_offline">Connexion à Hamelin</string>

@@ -9,12 +9,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 
@@ -29,8 +27,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private WebView webview;
 
-    private String url = "";
-    private Menu menu;
     private WaitConnectionTask waitConnectionTask;
 
 
@@ -46,11 +42,20 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         setContentView(R.layout.activity_main);
 
-    }
+        webview = (WebView) findViewById(R.id.webView);
+        // webview js enable
+        WebSettings settings = webview.getSettings();
+        settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        settings.setJavaScriptEnabled(true);
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+        // lock webview touch
+        webview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
 
         mSensorManager.registerListener(this, sensorAccelerometer,
                 SensorManager.SENSOR_DELAY_NORMAL);
@@ -59,6 +64,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override
     protected void onResume() {
         super.onResume();
+
         waitConnectionTask = new WaitConnectionTask(this);
         waitConnectionTask.execute();
     }
@@ -68,32 +74,24 @@ public class MainActivity extends Activity implements SensorEventListener {
         super.onPause();
 
         waitConnectionTask.cancel(true);
-        webview = (WebView) findViewById(R.id.webView);
+
         if (webview != null) {
             webview.stopLoading();
-//            webview.destroy();
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        webview = (WebView) findViewById(R.id.webView);
-        if (webview != null) {
-//            webview.stopLoading();
-            webview.destroy();
+        else{
+            Log.i(TAG,"webview is null for stop");
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        webview.destroy();
         mSensorManager.unregisterListener(this);
     }
 
-    public void onclick_live(View view){
-        Log.i(TAG,"going live !");
+    public void onclick_live(View view) {
+        Log.i(TAG, "going live !");
 
         finish();
         Intent i = new Intent(this, MainActivity.class);
