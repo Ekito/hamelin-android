@@ -29,10 +29,9 @@
             "?android:textAppearanceLarge"
         android:text="Une expérience musicale collective temps réel ..."
         android:textColor="#33B5E5"
-        android:gravity="fill_horizontal"
-        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:gravity="center" />
 
     <ImageView
         android:layout_weight="1"
@@ -47,7 +46,7 @@
         android:textAppearance=
             "?android:textAppearanceMedium"
         android:text="@string/offline_text"
-        android:gravity="fill_horizontal"
+        android:gravity="center"
         android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -56,7 +55,7 @@
     <Button style="?android:buttonBarButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:id="@+id/offline_ok_button"
         android:text="@string/offline_button"
         android:textColor="#33B5E5"

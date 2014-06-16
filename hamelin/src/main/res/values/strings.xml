@@ -9,7 +9,7 @@
 
     <string name="title_activity_offline">Connexion à Hamelin</string>
 
-    <string name="offline_text">Pour prendre part à l\'expérience musicale Hamelin, veuillez vous connecter au réseau wifi hamelin +  bouton \"Participer\".</string>
+    <string name="offline_text">Pour prendre part à l\'expérience musicale Hamelin, veuillez vous connecter au réseau wifi <b>HAMELIN</b></string>
     <string name="offline_button">Je participe</string>
     <string name="quit_button">Quitter</string>
 
