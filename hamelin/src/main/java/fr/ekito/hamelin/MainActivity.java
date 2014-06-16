@@ -15,6 +15,8 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import java.lang.reflect.InvocationTargetException;
+
 
 public class MainActivity extends Activity implements SensorEventListener {
 
@@ -64,6 +66,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i(TAG,"onResume");
 
         waitConnectionTask = new WaitConnectionTask(this);
         waitConnectionTask.execute();
@@ -72,11 +75,13 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override
     protected void onPause() {
         super.onPause();
+        Log.i(TAG,"onPause");
 
         waitConnectionTask.cancel(true);
 
         if (webview != null) {
-            webview.stopLoading();
+            // for stopping js from web site
+            webview.loadUrl("about:blank");
         }
         else{
             Log.i(TAG,"webview is null for stop");
