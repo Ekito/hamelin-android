@@ -48,8 +48,12 @@ public class MainActivity extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_main);
 
         webview = (WebView) findViewById(R.id.webView);
+        webview.setVerticalScrollBarEnabled(true);
+        webview.setHorizontalScrollBarEnabled(true);
+
         // webview js enable
         WebSettings settings = webview.getSettings();
+        // optimize rendering
         settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setJavaScriptEnabled(true);
