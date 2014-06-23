@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Hamelin-Android.iml" filepath="$PROJECT_DIR$/Hamelin-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/hamelin/hamelin.iml" filepath="$PROJECT_DIR$/hamelin/hamelin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hamelin-android.iml" filepath="$PROJECT_DIR$/hamelin-android.iml" />
     </modules>
   </component>
 </project>

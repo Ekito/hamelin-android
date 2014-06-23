@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -21,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 public class MainActivity extends Activity implements SensorEventListener {
 
     private static final String TAG = "HAMELIN";
-
 
     private SensorManager mSensorManager;
 
@@ -35,6 +35,9 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         // sensor management
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensorAccelerometer = mSensorManager
